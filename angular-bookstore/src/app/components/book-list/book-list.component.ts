@@ -12,26 +12,25 @@ import { ActivatedRoute } from '@angular/router';
 export class BookListComponent implements OnInit {
 
   books: Book[];
-  currentCategoryId: string;
+  currentCategoryId: number;
 
-  constructor(private bookService: BookService, private activetedRoute: ActivatedRoute) { }
+  constructor(private bookService: BookService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activetedRoute.paramMap.subscribe(() => {
+    this.activatedRoute.paramMap.subscribe(() => {
       this.listBooks();
     });
   }
 
   listBooks() {
 
-    const hasCategoryId = this.activetedRoute.snapshot.paramMap.has('id');
-
+    const hasCategoryId = this.activatedRoute.snapshot.paramMap.has('id');
     if (hasCategoryId) {
-      this.currentCategoryId = this.activetedRoute.snapshot.paramMap.get('id');
+      this.currentCategoryId = +this.activatedRoute.snapshot.paramMap.get('id');
     } else {
-      this.currentCategoryId = '1';
+      this.currentCategoryId = 1;
     }
-
     this.bookService.getBooks(this.currentCategoryId).subscribe(
       data => this.books = data
     );
